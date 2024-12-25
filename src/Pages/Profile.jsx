@@ -49,7 +49,7 @@ const Profile = ({ userName, userRole, onLogout }) => {
   }
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="xs">
       <Paper
         elevation={3}
         style={{ padding: "20px", marginTop: "50px", borderRadius: "16px" }}

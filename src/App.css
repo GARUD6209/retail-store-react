@@ -1,0 +1,14 @@
+html, body {
+    height: 100%; /* Ensure the body takes full height */
+    margin: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column; /* Arrange elements vertically */
+    min-height: 100vh; /* Ensure the layout spans the full viewport height */
+  }
+  
+  .app-container{
+    margin-bottom: 50px;
+  }

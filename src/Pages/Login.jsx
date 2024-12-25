@@ -98,6 +98,9 @@ const Login = ({ setAuth, setRole }) => {
           <p className="footer-text">
             Don't have an account? <a href="/register">Register</a>
           </p>
+          <p className="footer-text">
+            <a href="/reset-password">forget Password?</a>
+          </p>
         </Box>
       </Paper>
     </Container>

@@ -46,9 +46,8 @@ export const getUserProfile = async () => {
 };
 
 export const updateUserProfile = async (userData) => {
-  const hardcodedId = 1; // Replace with the actual hardcoded ID
   const response = await axios.put(
-    `${API_URL}/user/${hardcodedId}`,
+    `${API_URL}/user`,
     userData,
     getAuthHeaders()
   );
