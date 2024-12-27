@@ -1,5 +1,6 @@
 {
-  "name": "retail-store-react",
+  "name": "retail-store-react", 
+  "homepage": "https://garud6209.github.io/retail-store-react",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,11 +8,14 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
     "@mui/styled-engine": "^6.2.1",
     "axios": "^1.7.9",

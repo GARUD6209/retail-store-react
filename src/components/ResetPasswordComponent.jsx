@@ -9,18 +9,27 @@ import {
   TextField,
   CircularProgress,
   Button,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 const ResetPasswordComponent = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState(""); // New state
+  const [showPassword, setShowPassword] = useState(false); // New state for toggling password visibility
   const [step, setStep] = useState(1); // Tracks the current step in the process
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [redirecting, setRedirecting] = useState(false); // New state for redirection prompt
+  const [passwordError, setPasswordError] = useState("");
   const navigate = useNavigate();
+
+  const strongPasswordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const handleGenerateOtp = async () => {
     try {
@@ -57,6 +66,17 @@ const ResetPasswordComponent = () => {
   };
 
   const handleUpdatePassword = async () => {
+    if (!validatePassword(newPassword)) {
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setMessage({
+        type: "error",
+        text: "Passwords do not match.",
+      });
+      return;
+    }
     try {
       setLoading(true);
       const response = await axios.post(
@@ -80,6 +100,21 @@ const ResetPasswordComponent = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const validatePassword = (password) => {
+    if (!strongPasswordRegex.test(password)) {
+      setPasswordError(
+        "Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character."
+      );
+      return false;
+    }
+    setPasswordError("");
+    return true;
   };
 
   return (
@@ -149,12 +184,42 @@ const ResetPasswordComponent = () => {
           <Box>
             <TextField
               label="New Password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              onBlur={() => validatePassword(newPassword)}
               fullWidth
               required
               margin="normal"
+              error={!!passwordError}
+              helperText={passwordError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={toggleShowPassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <TextField
+              label="Confirm Password"
+              type={showPassword ? "text" : "password"}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              fullWidth
+              required
+              margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={toggleShowPassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <Button
               variant="contained"

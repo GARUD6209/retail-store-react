@@ -42,7 +42,9 @@ function App() {
         <Routes>
           <Route
             path="/login"
-            element={<Login setAuth={setAuth} setRole={setRole} />}
+            element={
+              auth ? <Profile /> : <Login setAuth={setAuth} setRole={setRole} />
+            }
           />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ResetPasswordComponent />} />
@@ -64,7 +66,10 @@ function App() {
               )
             }
           />
-          <Route path="*" element={<Navigate to="/login" />} />
+          <Route
+            path="*"
+            element={auth ? <Profile /> : <Navigate to="/login" />}
+          />
         </Routes>
       </div>
 
