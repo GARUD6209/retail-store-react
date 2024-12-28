@@ -1,5 +1,5 @@
 {
-  "name": "retail-store-react", 
+  "name": "retail-store-react",
   "homepage": "https://garud6209.github.io/retail-store-react",
   "private": true,
   "version": "0.0.0",
@@ -32,6 +32,7 @@
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
+    "gh-pages": "^6.2.0",
     "globals": "^15.13.0",
     "vite": "^6.0.3"
   }
