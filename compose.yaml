@@ -1,34 +1,30 @@
+version: "3.8"
+
 services:
   nginx:
-    image: nginx:stable-alpine
+    build:
+      context: ./retail-store-react
+      dockerfile: Dockerfile # This assumes your Dockerfile is in the 'retail-store-react' directory
+    image: garud6209/retail-store-react:latest
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - "8081:80" # Serve React via Nginx
     networks:
       - retail_app
     volumes:
-      - D:\Major-Project\Spring-revision\Git-Sync\retail-store-react\dist:/usr/share/nginx/html
-      - D:\Major-Project\Spring-revision\Git-Sync\retail-store-react\nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx.conf:/etc/nginx/nginx.conf # Mount the custom Nginx config
+    environment:
+      - VITE_API_URL=http://retail-store:8080 # Pass the API URL to React at build time
 
   retail-store:
     image: garud6209/retail-store:latest
     container_name: retail-store
     ports:
-      - "8080:8080" # Adjust as needed
+      - "8080:8080" # Backend API
     networks:
       - retail_app
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-
-  retail-store-react:
-    image: garud6209/retail-store-react:latest
-    container_name: retail-store-react
-    ports:
-      - "3000:3000" # Port for React frontend
-    networks:
-      - retail_app
-    environment:
-      - VITE_API_URL=http://retail-store:8080 # Backend API URL
 
 networks:
   retail_app:
