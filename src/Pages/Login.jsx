@@ -8,8 +8,11 @@ import {
   Typography,
   Paper,
   CircularProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = ({ setAuth, setRole }) => {
   const [username, setUsername] = useState("");
@@ -17,6 +20,7 @@ const Login = ({ setAuth, setRole }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,6 +52,10 @@ const Login = ({ setAuth, setRole }) => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Paper elevation={3} style={{ padding: "20px", marginTop: "50px" }}>
@@ -73,11 +81,20 @@ const Login = ({ setAuth, setRole }) => {
             fullWidth
             name="password"
             label="Password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             id="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={toggleShowPassword}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           {error && (
             <Typography color="error" variant="body2" align="center">

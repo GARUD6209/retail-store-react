@@ -15,8 +15,12 @@ const Register = () => {
     username: "",
     password: "",
     confirmPassword: "",
-    role: "",
-    city: "",
+    cityId: "", // Set as an empty string initially
+    name: "",
+    mobileNumber: "",
+    email: "",
+    gstNumber: "",
+    address: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -36,6 +40,7 @@ const Register = () => {
     setError("");
     setSuccessMessage("");
 
+    // Validate password match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -43,22 +48,35 @@ const Register = () => {
 
     setLoading(true);
     try {
+      // Make API call
       const response = await register({
         username: formData.username,
         password: formData.password,
-        role: formData.role,
-        city: formData.city,
+        cityId: formData.cityId,
+        name: formData.name,
+        mobileNumber: formData.mobileNumber,
+        email: formData.email,
+        gstNumber: formData.gstNumber,
+        address: formData.address,
       });
-      console.log(response);
 
-      if (response.statusCode === 200) {
+      console.log(
+        "Status code from register component : " + response.statusCode
+      );
+
+      // Handle response
+      if (response === "User registered successfully") {
         setSuccessMessage("Registration successful! Please login.");
         setFormData({
           username: "",
           password: "",
           confirmPassword: "",
-          role: "",
-          city: "",
+          cityId: 0,
+          name: "",
+          mobileNumber: "",
+          email: "",
+          gstNumber: "",
+          address: "",
         });
       } else {
         setError(response.message || "Registration failed");
@@ -114,19 +132,57 @@ const Register = () => {
           <TextField
             margin="normal"
             fullWidth
-            id="role"
-            label="Role"
-            name="role"
-            value={formData.role}
+            id="name"
+            label="Name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
           />
           <TextField
             margin="normal"
             fullWidth
-            id="city"
-            label="City"
-            name="city"
-            value={formData.city}
+            id="mobileNumber"
+            label="Mobile Number"
+            name="mobileNumber"
+            value={formData.mobileNumber}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="gstNumber"
+            label="GST Number"
+            name="gstNumber"
+            value={formData.gstNumber}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="address"
+            label="Address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            id="cityId"
+            label="City ID"
+            name="cityId"
+            type="number"
+            value={formData.cityId}
             onChange={handleChange}
           />
           {error && (
@@ -149,9 +205,9 @@ const Register = () => {
           >
             {loading ? <CircularProgress size={24} /> : "Register"}
           </Button>
-          <p className="footer-text">
+          <Typography align="center" variant="body2">
             Already have an account? <a href="/login">Login</a>
-          </p>
+          </Typography>
         </Box>
       </Paper>
     </Container>
