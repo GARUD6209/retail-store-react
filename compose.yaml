@@ -2,10 +2,8 @@ version: "3.8"
 
 services:
   nginx:
-    build:
-      context: ./retail-store-react
-      dockerfile: Dockerfile # This assumes your Dockerfile is in the 'retail-store-react' directory
     image: garud6209/retail-store-react:latest
+    container_name: nginx-react-app
     restart: unless-stopped
     ports:
       - "8081:80" # Serve React via Nginx
@@ -18,7 +16,7 @@ services:
 
   retail-store:
     image: garud6209/retail-store:latest
-    container_name: retail-store
+    container_name: retail-spring-test
     ports:
       - "8080:8080" # Backend API
     networks:

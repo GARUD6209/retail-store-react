@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a parent image
-FROM node:22-alpine as build
+FROM node:22-alpine as nodework
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -19,11 +19,11 @@ RUN npm run build
 # Use a lightweight web server for the production build
 FROM nginx:stable-alpine
 
+WORKDIR /usr/share/nginx/html
 # Copy the build output to Nginx's HTML directory
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=nodework /app/dist /usr/share/nginx/html
 
-# Expose port 80 to the host
-EXPOSE 80
+EXPOSE 8081
 
 # Start Nginx when the container launches
 CMD ["nginx", "-g", "daemon off;"]
