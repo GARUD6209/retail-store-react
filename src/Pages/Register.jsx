@@ -9,6 +9,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { register } from "../Service/api";
+import CityDropdown from "../components/CityDropdown";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -175,15 +176,10 @@ const Register = () => {
             value={formData.address}
             onChange={handleChange}
           />
-          <TextField
-            margin="normal"
-            fullWidth
-            id="cityId"
-            label="City ID"
-            name="cityId"
-            type="number"
-            value={formData.cityId}
-            onChange={handleChange}
+          <CityDropdown
+            value={formData.cityId || ""}
+            onChange={handleChange} // Works as-is with the simulated event
+            label="City"
           />
           {error && (
             <Typography color="error" variant="body2" align="center">

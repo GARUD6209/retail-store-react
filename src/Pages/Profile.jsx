@@ -100,7 +100,8 @@ const Profile = ({ userName, userRole, onLogout }) => {
             padding: "10px 20px",
           }}
           component={Link}
-          to={`/update-user`}
+          to="/update-user"
+          state={profile} // Pass the profile data as state
           style={{ textDecoration: "none", color: "white" }}
         >
           Update Profile

@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { updateUserProfile } from "../Service/api";
 import { useNavigate, useLocation } from "react-router-dom";
+import CityDropdown from "../components/CityDropdown";
 
 const UpdateProfile = () => {
   const location = useLocation();
@@ -75,14 +76,20 @@ const UpdateProfile = () => {
             value={formData.email || ""}
             onChange={handleChange}
           />
-          <TextField
+          {/* <TextField
             margin="normal"
             fullWidth
+            type="number"
             id="cityId"
             label="City ID"
             name="cityId"
             value={formData.cityId || ""}
             onChange={handleChange}
+          /> */}
+          <CityDropdown
+            value={formData.cityId || ""}
+            onChange={handleChange} // Works as-is with the simulated event
+            label="City"
           />
           <TextField
             margin="normal"

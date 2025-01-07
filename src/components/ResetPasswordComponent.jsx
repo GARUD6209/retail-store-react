@@ -32,15 +32,28 @@ const ResetPasswordComponent = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const handleGenerateOtp = async () => {
+    if (!email.includes("@")) {
+      setMessage({ type: "error", text: "Invalid email address." });
+      return;
+    }
+
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/reset/otp/${email}`);
+      const response = await axios.post(`${API_URL}/reset/otp`, null, {
+        params: { email },
+      });
       setMessage({ type: "success", text: response.data });
       setStep(2);
     } catch (error) {
+      // Ensure error.response?.data is converted to a string
+      const errorMessage =
+        typeof error.response?.data === "string"
+          ? error.response.data
+          : error.response?.data?.errorMessage || "Error generating OTP";
+
       setMessage({
         type: "error",
-        text: error.response?.data || "Error generating OTP",
+        text: errorMessage,
       });
     } finally {
       setLoading(false);
