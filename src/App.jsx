@@ -17,33 +17,47 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const storedRole = localStorage.getItem("role");
-    if (token) {
+    if (token && storedRole) {
       setAuth(true);
       setRole(storedRole);
+    } else {
+      setAuth(false);
+      setRole(null);
     }
     setLoading(false);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    setAuth(false);
-    setRole("");
-  };
-
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loading-container">
+        <p>Loading...</p>
+      </div>
+    );
   }
+
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to logout?")) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      setAuth(false);
+      setRole(null);
+    }
+  };
 
   return (
     <BrowserRouter>
-      <Navbar isAdmin={role === "USER"} onLogout={handleLogout} />
+      <Navbar isAdmin={role === "ADMIN"} onLogout={handleLogout} auth={auth} />
+
       <div className="app-container">
         <Routes>
           <Route
             path="/login"
             element={
-              auth ? <Profile /> : <Login setAuth={setAuth} setRole={setRole} />
+              auth ? (
+                <Navigate to="/profile" />
+              ) : (
+                <Login setAuth={setAuth} setRole={setRole} />
+              )
             }
           />
           <Route path="/register" element={<Register />} />
@@ -56,10 +70,11 @@ function App() {
             path="/update-user"
             element={auth ? <UpdateProfile /> : <Navigate to="/login" />}
           />
+          {/* UserManagement route */}
           <Route
             path="/user-management"
             element={
-              auth && role === "USER" ? (
+              auth && role === "ADMIN" ? (
                 <UserManagement />
               ) : (
                 <Navigate to="/login" />
@@ -72,7 +87,6 @@ function App() {
           />
         </Routes>
       </div>
-
       <Footer />
     </BrowserRouter>
   );

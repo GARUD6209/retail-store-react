@@ -23,7 +23,7 @@ WORKDIR /usr/share/nginx/html
 # Copy the build output to Nginx's HTML directory
 COPY --from=nodework /app/dist /usr/share/nginx/html
 
-EXPOSE 8081
+EXPOSE 80
 
 # Start Nginx when the container launches
 CMD ["nginx", "-g", "daemon off;"]

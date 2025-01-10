@@ -2,8 +2,9 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import LogoutComponent from "./LogoutComponent";
 
-const Navbar = ({ isAdmin, onLogout }) => {
+const Navbar = ({ isAdmin, onLogout, auth }) => {
   const navigate = useNavigate();
 
   return (
@@ -13,20 +14,22 @@ const Navbar = ({ isAdmin, onLogout }) => {
           Harsh Codes
         </Typography>
         <Box>
-          <Button color="inherit" onClick={() => navigate("/profile")}>
-            Profile
-          </Button>
-          {isAdmin && (
-            <Button
-              color="inherit"
-              onClick={() => navigate("/user-management")}
-            >
-              User Management
-            </Button>
+          {auth && (
+            <>
+              <Button color="inherit" onClick={() => navigate("/profile")}>
+                Profile
+              </Button>
+              {isAdmin && (
+                <Button
+                  color="inherit"
+                  onClick={() => navigate("/user-management")}
+                >
+                  User Management
+                </Button>
+              )}
+              <LogoutComponent onLogoutButton={onLogout} />
+            </>
           )}
-          <Button color="inherit" onClick={onLogout}>
-            Logout
-          </Button>
         </Box>
       </Toolbar>
     </AppBar>
